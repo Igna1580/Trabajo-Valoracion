@@ -18,21 +18,29 @@ Fut_oro$X..var. <- as.numeric(gsub(as.array(",") , ".", Fut_oro$X..var.))/100
 Spot_oro$X..var. <- gsub(as.array("%") , "", Spot_oro$X..var.)
 Spot_oro$X..var. <- as.numeric(gsub(as.array(",") , ".", Spot_oro$X..var.))/100
 
-r <- mean(Spot_oro$X..var.[12:24])
+r <- mean(Spot_oro$X..var.[12:36])
 
 #Prediccion de Spot
 Spot_predecidos <- c()
 for(i in 1:24){
-  Spot_predecidos <- c(Spot_predecidos, Spot_oro$Apertura[1]*exp(r*(i/12)))
+  Spot_predecidos <- c(Spot_predecidos, Spot_oro$Apertura[12]*exp(r*(i/12)))
 }
 
 Prediccion_Spot = ggplot() + 
   geom_line(aes(x = 1:24, y = Spot_predecidos , color = "Prediccón"), linetype = "solid", linewidth = 1) +
-  geom_line(aes(x = 1:24, y = Spot_oro$Apertura[1:24] , color = "Real"), linetype = "solid", linewidth = 1) +
+  geom_line(aes(x = 1:24, y = rev(Spot_oro$Apertura[1:24]) , color = "Real"), linetype = "solid", linewidth = 1) +
   scale_color_manual(values = c("Prediccón" = "darkblue", "Real" = "maroon")) +
-  labs(title = "Titulon't", x = "Tiempo", y = "¨Precio Spot") +
+  labs(title = "Titulon't", x = "Tiempo", y = "Precio Spot") +
   cowplot::theme_cowplot()
 print(Prediccion_Spot)
+
+Proyeccion_Spot = ggplot() + 
+  geom_line(aes(x = 25:48, y = Spot_predecidos , color = "Prediccón"), linetype = "solid", linewidth = 1) +
+  geom_line(aes(x = 1:48, y = rev(Spot_oro$Apertura[1:48]) , color = "Real"), linetype = "solid", linewidth = 1) +
+  scale_color_manual(values = c("Prediccón" = "darkblue", "Real" = "maroon")) +
+  labs(title = "Titulon't", x = "Tiempo", y = "Precio Spot") +
+  cowplot::theme_cowplot()
+print(Proyeccion_Spot)
 
 #Comparacion con futuros
 # r <-  0.17 r de mejor ajuste
@@ -46,7 +54,7 @@ Prediccion_Fut = ggplot() +
   geom_line(aes(x = 1:12, y = Fut_predecidos , color = "Prediccón"), linetype = "solid", linewidth = 1) +
   geom_line(aes(x = 1:12, y = rev(Fut_oro$Apertura[1:12]) , color = "Real"), linetype = "solid", linewidth = 1) +
   scale_color_manual(values = c("Prediccón" = "darkblue", "Real" = "maroon")) +
-  labs(title = "Titulon't", x = "Tiempo", y = "¨Precio Spot") +
+  labs(title = "Titulon't", x = "Tiempo", y = "Precio Spot") +
   cowplot::theme_cowplot()
 print(Prediccion_Fut)
 
