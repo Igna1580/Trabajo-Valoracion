@@ -18,7 +18,7 @@ Spot_platino$X..var. <- as.numeric(gsub(as.array(",") , ".", Spot_platino$X..var
 
 #Tasa libre de riesgo
 
-r_spot <- mean(Spot_platino$X..var.[13:24])
+r_spot <- mean(Spot_platino$X..var.[13:96])
 
 Spot_platino_proyectados <- c()
 
