@@ -76,3 +76,4 @@ Comparación_futuros_platino = ggplot() +
   labs(title = "Comparación de los precios futuros proyectados y los reales para el 2023", x = "Tiempo", y = "¨Precio Spot") +
   cowplot::theme_cowplot() + theme_minimal()
 print(Comparación_futuros_platino)
+
