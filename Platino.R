@@ -37,7 +37,7 @@ print(Spot_platino_proyeccion)
 #Comparación de los precios spot proyectados y los reales para el 2023
 Comparación_spot_platino1 = ggplot() + 
   geom_line(aes(x = 1:12, y = Spot_platino_proyectados[1:12], color = "Predicción"), linetype = "solid", linewidth = 1) +
-  geom_line(aes(x = 1:12, y = Spot_platino$Apertura[1:12] , color = "Real"), linetype = "solid", linewidth = 1) +
+  geom_line(aes(x = 1:12, y = rev(Spot_platino$Apertura[1:12]) , color = "Real"), linetype = "solid", linewidth = 1) +
   scale_color_manual(values = c("Predicción" = "darkblue", "Real" = "maroon")) +
   labs(title = "Comparación de los precios spot proyectados y los reales para el 2023", x = "Tiempo", y = "Precio Spot", color = "") +
   cowplot::theme_cowplot() + theme_minimal()
@@ -47,7 +47,7 @@ print(Comparación_spot_platino1)
 #Comparación de los precios spot proyectados y los reales en dos años
 Comparación_spot_platino = ggplot() + 
   geom_line(aes(x = 13:36, y = Spot_platino_proyectados, color = "Predicción"), linetype = "solid", linewidth = 1) +
-  geom_line(aes(x = 1:24, y = Spot_platino$Apertura[1:24] , color = "Real"), linetype = "solid", linewidth = 1) +
+  geom_line(aes(x = 1:24, y = rev(Spot_platino$Apertura[1:24]) , color = "Real"), linetype = "solid", linewidth = 1) +
   scale_color_manual(values = c("Predicción" = "darkblue", "Real" = "maroon")) +
   labs(title = "Comparación de los precios spot proyectados y los reales", x = "Tiempo", y = "Precio Spot", color = "") +
   cowplot::theme_cowplot() + theme_minimal()
