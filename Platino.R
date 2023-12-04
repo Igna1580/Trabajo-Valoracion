@@ -23,7 +23,7 @@ r_spot <- mean(Spot_platino$X..var.[13:96])
 Spot_platino_proyectados <- c()
 
 for(i in 1:24){
-  Spot_platino_proyectados[i] <- Spot_platino$Apertura[13]*exp(r_spot*(i/12))
+  Spot_platino_proyectados[i] <- Spot_platino$Apertura[12]*exp(r_spot*(i/12))
 }
 
 Spot_platino_proyeccion = ggplot() + 
@@ -65,7 +65,7 @@ Futuros_platino_proyectados<- c()
 
 #Proyecciones 2023 y 2024
 
-Futuros_platino_proyectados[1] <- Spot_platino$Apertura[13]*exp(r_spot*(1/12))
+Futuros_platino_proyectados[1] <- Spot_platino$Apertura[12]*exp(r_spot*(1/12))
 
 for(i in 2:24){
   Futuros_platino_proyectados[i] <- Spot_platino_proyectados[i-1]*exp(r_spot*(1/12))
@@ -73,8 +73,8 @@ for(i in 2:24){
 
 Futuros_platino_proyeccion = ggplot() + 
   geom_line(aes(x = 1:24, y = Futuros_platino_proyectados[1:24], color = "Línea de Proyección"), linetype = "solid", size = 1) + 
-  labs(title = "", x = "Tiempo", y = "Precio Spot", color = "") +
-  cowplot::theme_cowplot() + theme_minimal() +
+  labs(title = "", x = "Tiempo", y = "Precio Futuros", color = "") +
+  cowplot::theme_cowplot()+theme_minimal() +
   scale_color_manual(values = "blue",guide = FALSE)+ 
   scale_y_continuous(labels = function(x) format(x, big.mark = " ", decimal.mark = ",", scientific = FALSE))
 
@@ -95,33 +95,22 @@ print(Comparación_futuros_platino)
 
 #Comparación futuros 2023
 
+Futuros_platino_2023 <- c()
 for(i in 1:12 ){
   r <- mean(Spot_platino$X..var.[(13-i):(25-i)])
-  Futuros_platino_proyectados[i] <- Spot_platino$Apertura[13-i]*exp(r*(1/12))
+  Futuros_platino_2023[i] <- Spot_platino$Apertura[13-i]*exp(r*(1/12))
 }
 
 #Comparación de los precios futuros proyectados y los reales para el 2023
 Comparación_futuros_platino2 = ggplot() + 
-  geom_line(aes(x = 1:12, y = Futuros_platino_proyectados[1:12] , color = "Predicción"), linetype = "solid", linewidth = 1) +
+  geom_line(aes(x = 1:12, y = Futuros_platino_2023[1:12] , color = "Predicción"), linetype = "solid", linewidth = 1) +
   geom_line(aes(x = 1:12, y = rev(Futuros_platino$Apertura[1:12]) , color = "Real"), linetype = "solid", linewidth = 1) +
   scale_color_manual(values = c("Predicción" = "darkblue", "Real" = "maroon")) +
-  labs(title = "", x = "Tiempo", y = "Precio Spot", color = "") +
+  labs(title = "", x = "Tiempo", y = "Precio Futuros", color = "") +
   cowplot::theme_cowplot() + theme_minimal()+ 
   scale_y_continuous(labels = function(x) format(x, big.mark = " ", decimal.mark = ",", scientific = FALSE))
 
 print(Comparación_futuros_platino2)
-
-
-#Comparación de los precios spot proyectados y los reales en dos años
-Comparación_futuros_platino3 = ggplot() + 
-  geom_line(aes(x = 13:37, y = Futuros_platino_proyectados, color = "Predicción"), linetype = "solid", linewidth = 1) +
-  geom_line(aes(x = 1:24, y = rev(Futuros_platino$Apertura[1:24]) , color = "Real"), linetype = "solid", linewidth = 1) +
-  scale_color_manual(values = c("Predicción" = "darkblue", "Real" = "maroon")) +
-  labs(title = "", x = "Tiempo", y = "Precio Spot", color = "") +
-  cowplot::theme_cowplot() + theme_minimal()+ 
-  scale_y_continuous(labels = function(x) format(x, big.mark = " ", decimal.mark = ",", scientific = FALSE))
-
-print(Comparación_futuros_platino3)
 
 #Análisis descriptivo de los datos
 
@@ -166,7 +155,20 @@ moda_futuros_r <- mode(Futuros_platino$X..var.[13:96])
 media_futuros_r <-mean(Futuros_platino$X..var.[13:96])
 
 #Distribuciones de los datos del spot
+densidad_spots <- ggplot(Spot_platino[c(13:96),], aes(x = Apertura)) +
+  geom_density(fill = "lightblue", color = "black") +
+  labs(title = "", x = "Precios Spots", y = "Densidad")+
+  theme_minimal()+
+  scale_x_continuous(labels = function(x) format(x, big.mark = " ", decimal.mark = ",", scientific = FALSE))
 
 
+print(densidad_spots)
 
+#Densidad de los datos de los futuros
+densidad_futuros <- ggplot(Futuros_platino[c(13:96),], aes(x = Apertura)) +
+  geom_density(fill = "lightblue", color = "black") + 
+  labs(title = "", x = "Precios Futuros", y = "Densidad")+
+  theme_minimal()+
+  scale_x_continuous(labels = function(x) format(x, big.mark = " ", decimal.mark = ",", scientific = FALSE))
 
+print(densidad_futuros)
